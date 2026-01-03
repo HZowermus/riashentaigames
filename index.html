@@ -146,6 +146,9 @@ function addLine(t){
 function start(){
   step1.classList.add("hidden");
   step2.classList.remove("hidden");
+  const sound = document.getElementById("alertSound");
+sound.volume = 1.0;
+sound.play().catch(()=>{});
 
   document.documentElement.requestFullscreen?.();
   navigator.vibrate?.([400,150,400]);
@@ -196,6 +199,6 @@ function start(){
   },9000);
 }
 </script>
-
+<audio id="alertSound" src="alert.mp3" preload="auto"></audio>
 </body>
 </html>
