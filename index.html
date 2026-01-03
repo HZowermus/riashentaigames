@@ -10,6 +10,8 @@ html,body{
   background:#050505;color:#e0e0e0;
   font-family:monospace;overflow:hidden;
 }
+
+/* EKRAN SARSINTISI */
 .shake{animation:shake .25s linear}
 @keyframes shake{
   0%{transform:translate(0,0)}
@@ -18,16 +20,66 @@ html,body{
   75%{transform:translate(-2px,3px)}
   100%{transform:translate(0,0)}
 }
-.center{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column}
-button{padding:14px 28px;font-size:16px;background:#111;border:1px solid #444;color:#ddd}
+
+.center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  flex-direction:column;
+}
+
+button{
+  padding:14px 28px;
+  font-size:16px;
+  background:#111;
+  border:1px solid #444;
+  color:#ddd;
+}
+
 .hidden{display:none}
-#terminal{padding:12px;font-size:13px;color:#ff3b3b}
-.cmd{animation:flicker .07s infinite alternate}
+
+/* TERMINAL */
+#terminal{
+  padding:14px;
+  font-size:13px;
+  color:#ff3b3b;
+}
+.cmd{animation:flicker .08s infinite alternate}
 @keyframes flicker{from{opacity:.85}to{opacity:1}}
-.photo-row{display:flex;gap:6px;margin:8px 0}
-.photo-row img{width:32%;border:1px solid #551111}
-#blue{background:#0b3a6e;color:#e6e6e6;width:100%;height:100%;padding:30px;font-size:18px}
-#boot{color:#9f9f9f;font-size:14px;padding:20px}
+
+.photo-row{
+  display:flex;
+  gap:6px;
+  margin:8px 0;
+}
+.photo-row img{
+  width:32%;
+  border:1px solid #661111;
+}
+
+/* MAVİ EKRAN */
+#blue{
+  background:#0b3a6e;
+  color:#e6e6e6;
+  width:100%;
+  height:100%;
+  padding:30px;
+  font-size:18px;
+}
+
+/* FINAL */
+#final{
+  background:#000;
+  color:#ff3b3b;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  font-size:18px;
+}
 </style>
 </head>
 <body>
@@ -46,124 +98,102 @@ button{padding:14px 28px;font-size:16px;background:#111;border:1px solid #444;co
 <!-- AŞAMA 3 -->
 <div id="step3" class="hidden">
   <div id="blue">
-    Sistem durduruldu.<br><br>
-    Kritik bir hata algılandı.<br>
-    Bellek dökümü alınıyor.<br><br>
-    Lütfen cihazı kapatmayın.
+    Sistem bir hatayla karşılaştı.<br><br>
+    Güvenlik modülü devre dışı bırakıldı.<br>
+    Oturum askıya alındı.<br><br>
+    Lütfen bekleyin...
   </div>
 </div>
 
-<!-- AŞAMA 4 -->
+<!-- AŞAMA 4 (FINAL) -->
 <div id="step4" class="hidden">
-  <div id="boot"></div>
-</div>
-
-<!-- AŞAMA 5 -->
-<div id="step5" class="hidden">
-  <div style="
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#000;
-    color:#ff3b3b;
-    text-align:center;
-    padding:20px;
-    font-family:monospace;
-    font-size:18px;">
+  <div id="final">
     <div>
-      <p>
-        telefonunuzun bütün verileri çalınmıştır<br>
-        bu da size ders olsun sapıklar
+      <!-- ⬇️⬇️⬇️ METNİ BURADAN DEĞİŞTİR ⬇️⬇️⬇️ -->
+      <p id="finalText">
+        Bütün Kişisel Bilgilerin Artık Vajinamın İçinde
       </p>
-      <p style="margin-top:30px;color:#888">— Rias Gremory</p>
+      <!-- ⬆️⬆️⬆️ METİN BİTİŞ ⬆️⬆️⬆️ -->
+
+      <img src="16965.jpg" style="max-width:80%;margin-top:20px;border:1px solid #400">
+
+      <p style="margin-top:25px;color:#888">
+        — Rias Gremory
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-const term = document.getElementById("terminal");
 const body = document.body;
+const term = document.getElementById("terminal");
 
-const photos = ["16962.jpg","16963.jpg","16964.jpg"];
+const photos = [
+  "16962.jpg",
+  "16963.jpg",
+  "16964.jpg"
+];
 
-function shakeScreen(){
+function shake(){
   body.classList.add("shake");
   setTimeout(()=>body.classList.remove("shake"),250);
 }
-function addLine(text){
-  term.appendChild(document.createTextNode(text + "\n"));
+
+function addLine(t){
+  term.appendChild(document.createTextNode(t + "\n"));
 }
 
 function start(){
   step1.classList.add("hidden");
   step2.classList.remove("hidden");
-  document.documentElement.requestFullscreen?.();
-  navigator.vibrate?.([500,150,500]);
 
-  let i=0;
-  const lines=[
-    "[CRITICAL] system_check: initializing",
-    "[OK] kernel_access: granted",
-    "[WARN] security_layer: bypassed",
-    "[OK] mounting user partition",
-    "[WARN] reading media cache",
-    "[ERROR] unexpected response detected",
-    "[ERROR] permission mismatch: media.read",
-    "[CRITICAL] dumping visual buffer"
+  document.documentElement.requestFullscreen?.();
+  navigator.vibrate?.([400,150,400]);
+
+  let i = 0;
+  const lines = [
+    "[SYS] initializing session",
+    "[OK] background services loaded",
+    "[WARN] unknown source detected",
+    "[OK] temporary access granted",
+    "[WARN] visual cache read",
+    "[ERROR] unexpected behaviour",
+    "[SYS] rendering memory snapshot"
   ];
 
-  const interval=setInterval(()=>{
+  const loop = setInterval(()=>{
     addLine(lines[i % lines.length]);
-    if(i % 4 === 0){
-      const row=document.createElement("div");
-      row.className="photo-row";
+
+    if(i % 3 === 0){
+      const row = document.createElement("div");
+      row.className = "photo-row";
       photos.forEach(p=>{
-        const img=document.createElement("img");
-        img.src=p;
+        const img = document.createElement("img");
+        img.src = p;
         row.appendChild(img);
       });
       term.appendChild(row);
-      shakeScreen();
+      shake();
     }
-    i++;
-  },120);
 
+    i++;
+    window.scrollTo(0,document.body.scrollHeight);
+  },130);
+
+  // Terminal → Mavi ekran
   setTimeout(()=>{
-    clearInterval(interval);
+    clearInterval(loop);
     step2.classList.add("hidden");
     step3.classList.remove("hidden");
-    shakeScreen();
-  },4200);
+    shake();
+  },4500);
 
+  // Mavi ekran → Final
   setTimeout(()=>{
     step3.classList.add("hidden");
     step4.classList.remove("hidden");
-    boot();
+    navigator.vibrate?.([500,200,500,200,700]);
   },9000);
-}
-
-function boot(){
-  const bootText=[
-    "Initializing hardware services",
-    "Loading system modules",
-    "Restoring user environment",
-    "Device status: inactive"
-  ];
-  let i=0;
-  const out=document.getElementById("boot");
-  const b=setInterval(()=>{
-    out.innerText+=bootText[i]+"\n";
-    i++;
-    if(i>=bootText.length){
-      clearInterval(b);
-      setTimeout(()=>{
-        step4.classList.add("hidden");
-        step5.classList.remove("hidden");
-        navigator.vibrate?.([300,100,300,100,600]);
-      },2000);
-    }
-  },800);
 }
 </script>
 
