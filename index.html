@@ -10,8 +10,6 @@ html,body{
   background:#050505;color:#e0e0e0;
   font-family:monospace;overflow:hidden;
 }
-
-/* EKRAN SARSINTISI */
 .shake{animation:shake .25s linear}
 @keyframes shake{
   0%{transform:translate(0,0)}
@@ -20,32 +18,15 @@ html,body{
   75%{transform:translate(-2px,3px)}
   100%{transform:translate(0,0)}
 }
-
 .center{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column}
-button{
-  padding:14px 28px;font-size:16px;
-  background:#111;border:1px solid #444;color:#ddd;
-}
+button{padding:14px 28px;font-size:16px;background:#111;border:1px solid #444;color:#ddd}
 .hidden{display:none}
-
-/* CMD */
-#terminal{
-  padding:12px;font-size:13px;
-  color:#ff3b3b;
-}
+#terminal{padding:12px;font-size:13px;color:#ff3b3b}
 .cmd{animation:flicker .07s infinite alternate}
 @keyframes flicker{from{opacity:.85}to{opacity:1}}
-
 .photo-row{display:flex;gap:6px;margin:8px 0}
 .photo-row img{width:32%;border:1px solid #551111}
-
-/* MAVİ EKRAN */
-#blue{
-  background:#0b3a6e;color:#e6e6e6;
-  width:100%;height:100%;
-  padding:30px;font-size:18px
-}
-
+#blue{background:#0b3a6e;color:#e6e6e6;width:100%;height:100%;padding:30px;font-size:18px}
 #boot{color:#9f9f9f;font-size:14px;padding:20px}
 </style>
 </head>
@@ -77,77 +58,6 @@ button{
   <div id="boot"></div>
 </div>
 
-<script>
-const term = document.getElementById("terminal");
-const body = document.body;
-
-const photos = [
-  "16962.jpg",
-  "16963.jpg",
-  "16964.jpg"
-];
-
-function shakeScreen(){
-  body.classList.add("shake");
-  setTimeout(()=>body.classList.remove("shake"),250);
-}
-
-function addLine(text){
-  term.appendChild(document.createTextNode(text + "\n"));
-}
-
-function start(){
-  step1.classList.add("hidden");
-  step2.classList.remove("hidden");
-  document.documentElement.requestFullscreen?.();
-  navigator.vibrate?.([500,150,500]);
-
-  let i=0;
-  const lines=[
-    "[CRITICAL] system_check: initializing",
-    "[OK] kernel_access: granted",
-    "[WARN] security_layer: bypassed",
-    "[OK] mounting user partition",
-    "[WARN] reading media cache",
-    "[ERROR] unexpected response detected",
-    "[ERROR] permission mismatch: media.read",
-    "[CRITICAL] dumping visual buffer"
-  ];
-
-  const interval=setInterval(()=>{
-    addLine(lines[i % lines.length]);
-
-    if(i % 4 === 0){
-      const row=document.createElement("div");
-      row.className="photo-row";
-      photos.forEach(p=>{
-        const img=document.createElement("img");
-        img.src=p;
-        row.appendChild(img);
-      });
-      term.appendChild(row);
-      shakeScreen();
-    }
-
-    i++;
-    window.scrollTo(0,document.body.scrollHeight);
-  },120);
-
-  /* MAVİ EKRAN → DAHA UZUN */
-  setTimeout(()=>{
-    clearInterval(interval);
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-    shakeScreen();
-  },4200);
-
-  /* MAVİ EKRAN SÜRESİ UZATILDI */
-  setTimeout(()=>{
-    step3.classList.add("hidden");
-    step4.classList.remove("hidden");
-    boot();
-  },9000); // 👈 BURASI UZUN SÜRÜYOR
-}
 <!-- AŞAMA 5 -->
 <div id="step5" class="hidden">
   <div style="
@@ -160,35 +70,10 @@ function start(){
     text-align:center;
     padding:20px;
     font-family:monospace;
-    font-size:18px;
-  ">
+    font-size:18px;">
     <div>
-      <p>telefonunuzun bütün verileri çalınmıştır<br>
-      bu da size ders olsun sapıklar</p>
-
-      <p style="margin-top:30px;color:#888">— Rias Gremory</p>
-    </div>
-  </div>
-</div>
-function boot(){
-  const bootText=[
-    "Initializing hardware services",
-    "Loading system modules",
-    "Restoring user environment",
-    "Device status: inactive"
-  ];
-  let i=0;
-  const out=document.getElementById("boot");
-  const b=setInterval(()=>{
-    out.innerText+=bootText[i]+"\n";
-    i++;
-    if(i>=bootText.length)clearInterval(b);
-  },800);
-}
-</script>
-16962.jpg
-16963.jpg
-16964.jpg
-
-</body>
-</html>
+      <p>
+        telefonunuzun bütün verileri çalınmıştır<br>
+        bu da size ders olsun sapıklar
+      </p>
+      <p style="margin-top:30px;color:#888">— R
