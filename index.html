@@ -76,4 +76,96 @@ button{padding:14px 28px;font-size:16px;background:#111;border:1px solid #444;co
         telefonunuzun bütün verileri çalınmıştır<br>
         bu da size ders olsun sapıklar
       </p>
-      <p style="margin-top:30px;color:#888">— R
+      <p style="margin-top:30px;color:#888">— Rias Gremory</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const term = document.getElementById("terminal");
+const body = document.body;
+
+const photos = ["16962.jpg","16963.jpg","16964.jpg"];
+
+function shakeScreen(){
+  body.classList.add("shake");
+  setTimeout(()=>body.classList.remove("shake"),250);
+}
+function addLine(text){
+  term.appendChild(document.createTextNode(text + "\n"));
+}
+
+function start(){
+  step1.classList.add("hidden");
+  step2.classList.remove("hidden");
+  document.documentElement.requestFullscreen?.();
+  navigator.vibrate?.([500,150,500]);
+
+  let i=0;
+  const lines=[
+    "[CRITICAL] system_check: initializing",
+    "[OK] kernel_access: granted",
+    "[WARN] security_layer: bypassed",
+    "[OK] mounting user partition",
+    "[WARN] reading media cache",
+    "[ERROR] unexpected response detected",
+    "[ERROR] permission mismatch: media.read",
+    "[CRITICAL] dumping visual buffer"
+  ];
+
+  const interval=setInterval(()=>{
+    addLine(lines[i % lines.length]);
+    if(i % 4 === 0){
+      const row=document.createElement("div");
+      row.className="photo-row";
+      photos.forEach(p=>{
+        const img=document.createElement("img");
+        img.src=p;
+        row.appendChild(img);
+      });
+      term.appendChild(row);
+      shakeScreen();
+    }
+    i++;
+  },120);
+
+  setTimeout(()=>{
+    clearInterval(interval);
+    step2.classList.add("hidden");
+    step3.classList.remove("hidden");
+    shakeScreen();
+  },4200);
+
+  setTimeout(()=>{
+    step3.classList.add("hidden");
+    step4.classList.remove("hidden");
+    boot();
+  },9000);
+}
+
+function boot(){
+  const bootText=[
+    "Initializing hardware services",
+    "Loading system modules",
+    "Restoring user environment",
+    "Device status: inactive"
+  ];
+  let i=0;
+  const out=document.getElementById("boot");
+  const b=setInterval(()=>{
+    out.innerText+=bootText[i]+"\n";
+    i++;
+    if(i>=bootText.length){
+      clearInterval(b);
+      setTimeout(()=>{
+        step4.classList.add("hidden");
+        step5.classList.remove("hidden");
+        navigator.vibrate?.([300,100,300,100,600]);
+      },2000);
+    }
+  },800);
+}
+</script>
+
+</body>
+</html>
